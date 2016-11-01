@@ -56,3 +56,53 @@ test_qv4l2() {
     qv4l2 -d $dev
     confirm "Are qv4l2 for $dev ok"
 }
+
+# Media controller
+
+mc_log() {
+    src=$1
+    pad=$2
+    sink=$3
+    msg=$4
+    echo "'$src':$pad -> '$sink':0 : $msg"
+}
+
+mc_ensure() {
+    src=$1
+    pad=$2
+    sink=$3
+
+    if [[ "$(media-ctl -p | grep $src)" == "" ]]; then
+        mc_log $src $pad $sink "SKIP - Not all devices for this run are present"
+        return 1
+    fi
+
+    return 0
+}
+
+mc_mc_set_link_raw()
+{
+    src=$1
+    pad=$2
+    sink=$3
+    mode=$4
+
+    media-ctl -l "'$src':$pad -> '$sink':0 [$mode]" &> /dev/null
+    return $?
+}
+
+mc_set_link() {
+    src=$1
+    pad=$2
+    sink=$3
+    mode=$4
+
+    mc_ensure $src $pad $sink || return 0
+
+    if ! mc_mc_set_link_raw $src $pad $sink $mode; then
+        mc_log $src $pad $sink "FAIL - Link set $mode failed but should be OK"
+        exit 1
+    fi
+
+    mc_log $src $pad $sink "OKEY - Link set $mode"
+}
