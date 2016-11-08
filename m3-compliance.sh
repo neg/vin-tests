@@ -5,6 +5,8 @@ base=$(readlink -f $(dirname $0))
 source $base/scripts/vin-tests.sh
 source $base/scripts/m3.sh
 
+test_compliance_begin
+
 media-ctl -r
 mc_set_link $csi40name 1 $vinname0 1
 mc_set_link $csi20name 1 $vinname1 1
@@ -20,3 +22,5 @@ test_compliance $vin2
 # Need to get standard
 v4l2-ctl -d /dev/$vin4 --get-detected-standard
 test_compliance $vin4
+
+test_compliance_end

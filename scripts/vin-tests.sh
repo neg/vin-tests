@@ -26,6 +26,11 @@ confirm() {
     exit 1
 }
 
+test_compliance_begin() {
+    # clear dmesg
+    dmesg -c > /dev/null
+}
+
 test_compliance() {
     dev=/dev/$1
 
@@ -34,19 +39,19 @@ test_compliance() {
         exit 1
     fi
 
-    # clear dmesg
-    dmesg -c > /dev/null
-
     echo "* v4l2-compliance"
+    echo "v4l2-compliance for $dev" > /dev/kmsg
     if ! v4l2-compliance -d $dev -s -f; then
-        echo "compliance failed"
+        echo "compliance failed for $dev"
         exit 1
     fi
+}
 
+test_compliance_end() {
     echo "* dmesg"
     dmesg
 
-    confirm "Are compliance for $dev ok"
+    confirm "Are compliance dmesg output ok"
 }
 
 test_qv4l2() {
