@@ -20,3 +20,6 @@ vinname7="rcar_vin e6ef7000.video"
 
 csi20name="rcar_csi2 fea80000.csi2"
 csi40name="rcar_csi2 feaa0000.csi2"
+
+cvbsname="adv7482 4-0034"
+hdminame="adv7482 4-0070"

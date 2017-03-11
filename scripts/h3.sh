@@ -22,3 +22,6 @@ csi20name="rcar_csi2 fea80000.csi2"
 csi21name="rcar_csi2 fea90000.csi2"
 csi40name="rcar_csi2 feaa0000.csi2"
 csi41name="rcar_csi2 feab0000.csi2"
+
+cvbsname="adv7482 4-0034"
+hdminame="adv7482 4-0070"
