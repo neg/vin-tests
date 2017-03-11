@@ -169,7 +169,7 @@ if mc_ensure $csi41name; then
     mc_set_link $csi41name 4 $vinname7 1
     do_fail_group2 3
 else
-    echo "Skipping chsel3 group 2, csi41name not present"
+    echo "Skipping chsel3 group 2, $csi41name not present"
 fi
 
 echo "Setup links for chsel 4"
@@ -199,7 +199,7 @@ if mc_ensure $csi21name; then
     mc_set_link $csi21name 4 $vinname7 1
     do_fail_group2 5
 else
-    echo "Skipping chsel5 csi21name not present"
+    echo "Skipping chsel5 $csi21name not present"
 fi
 
 do_test_dual() {
