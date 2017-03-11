@@ -137,10 +137,10 @@ mc_set_link() {
         return 0
     fi
 
-    if ! mc_mc_set_link_raw $src $pad $sink $mode; then
-        mc_log $src $pad $sink "FAIL - Link set $mode failed but should be OK"
+    if ! mc_mc_set_link_raw "$src" $pad "$sink" $mode; then
+        mc_log "$src" $pad "$sink" "FAIL - Link set $mode failed but should be OK"
         exit 1
     fi
 
-    mc_log $src $pad $sink "OKEY - Link set $mode"
+    mc_log "$src" $pad "$sink" "OKEY - Link set $mode"
 }
