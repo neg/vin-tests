@@ -16,7 +16,10 @@ do_test() {
         return 0
     fi
 
-    mc_ensure $src $pad $sink || return 0
+    if ! mc_ensure "$src"; then
+        mc_log "$src" $pad "$sink" "SKIP - '$src' Not present in system"
+        return 0
+    fi
 
     if mc_mc_set_link_raw $src $pad $sink 1; then
         mc_log $src $pad $sink "FAIL - Link OK but should have failed"

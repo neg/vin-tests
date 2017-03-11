@@ -104,12 +104,9 @@ mc_log() {
 mc_ensure() {
     mdev=$(mc_get_mdev)
 
-    src=$1
-    pad=$2
-    sink=$3
+    ent=$1
 
-    if [[ "$($mediactl -d $mdev -p | grep $src)" == "" ]]; then
-        mc_log $src $pad $sink "SKIP - Not all devices for this run are present"
+    if [[ "$($mediactl -d $mdev -p | grep "$ent")" == "" ]]; then
         return 1
     fi
 
@@ -135,7 +132,10 @@ mc_set_link() {
     sink=$3
     mode=$4
 
-    mc_ensure $src $pad $sink || return 0
+    if ! mc_ensure "$src"; then
+        mc_log "$src" $pad "$sink" "SKIP - '$src' Not present in system"
+        return 0
+    fi
 
     if ! mc_mc_set_link_raw $src $pad $sink $mode; then
         mc_log $src $pad $sink "FAIL - Link set $mode failed but should be OK"
