@@ -52,6 +52,22 @@ test_compliance() {
     fi
 }
 
+test_compliance_mc() {
+    dev=/dev/$1
+
+    if [ ! -c $dev ]; then
+        echo "ERROR: $dev is not a video device"
+        exit 1
+    fi
+
+    echo "* v4l2-compliance"
+    echo "v4l2-compliance for $dev" > /dev/kmsg
+    if ! v4l2-compliance -d $dev -s; then
+        echo "compliance failed for $dev"
+        exit 1
+    fi
+}
+
 test_compliance_end() {
     echo "* dmesg"
     dmesg
