@@ -144,3 +144,22 @@ mc_set_link() {
 
     mc_log "$src" $pad "$sink" "OKEY - Link set $mode"
 }
+
+mc_propagate_format() {
+    mdev=$(mc_get_mdev)
+
+    cam="'$1':$2"
+    csi="'$3':$4"
+    vin="$5"
+
+    format=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:\([^/]*\).*|\1|')
+    size=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
+    field=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*field:\([^]]*\).*|\1|')
+    vdev=$($mediactl -d $mdev -e "$vin" )
+
+    echo "format: $format size: $size field: $field vdev: $vdev"
+
+    $mediactl -d $mdev -V "$cam [fmt:$format/$size field:$field]"
+    $mediactl -d $mdev -V "$csi [fmt:$format/$size field:$field]"
+    yavta -f RGB565 -s $size --field $field $vdev
+}
