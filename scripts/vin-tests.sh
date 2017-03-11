@@ -1,5 +1,10 @@
 #!/bin/bash
 
+error() {
+    echo "Error: $*" > /dev/stderr
+    exit 1
+}
+
 confirm() {
     local text=$1
 
@@ -75,6 +80,19 @@ test_qv4l2_dual() {
 
 # Media controller
 
+mediactl="media-ctl"
+
+mc_get_mdev() {
+    for mdev in /dev/media* ; do
+        if [[ "$($mediactl -d $mdev -p | grep 'Renesas VIN')" != "" ]]; then
+            echo $mdev
+            return 0
+        fi
+    done
+
+    error "Can't find media device"
+}
+
 mc_log() {
     src=$1
     pad=$2
@@ -84,11 +102,13 @@ mc_log() {
 }
 
 mc_ensure() {
+    mdev=$(mc_get_mdev)
+
     src=$1
     pad=$2
     sink=$3
 
-    if [[ "$(media-ctl -p | grep $src)" == "" ]]; then
+    if [[ "$($mediactl -d $mdev -p | grep $src)" == "" ]]; then
         mc_log $src $pad $sink "SKIP - Not all devices for this run are present"
         return 1
     fi
@@ -98,12 +118,14 @@ mc_ensure() {
 
 mc_mc_set_link_raw()
 {
+    mdev=$(mc_get_mdev)
+
     src=$1
     pad=$2
     sink=$3
     mode=$4
 
-    media-ctl -l "'$src':$pad -> '$sink':0 [$mode]" &> /dev/null
+    $mediactl -d $mdev -l "'$src':$pad -> '$sink':0 [$mode]" &> /dev/null
     return $?
 }
 
