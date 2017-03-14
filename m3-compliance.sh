@@ -25,4 +25,8 @@ mc_propagate_format "$cvbsname" 11 "$csi20name" 1 "$vinname4"
 test_compliance_mc $vin2
 test_compliance_mc $vin4
 
+# Make sure we can dequeue all buffers
+yavta -n 4 --capture=10 /dev/$vin2
+yavta -n 4 --capture=10 /dev/$vin4
+
 test_compliance_end
