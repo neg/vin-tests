@@ -96,7 +96,7 @@ do_fail_group2() {
 }
 
 echo "Setup links for chsel 0"
-media-ctl -r
+mc_reset
 mc_set_link "$csi40name" 1 "$vinname0" 1
 mc_set_link "$csi20name" 1 "$vinname1" 1
 mc_set_link "$csi21name" 1 "$vinname2" 1
@@ -109,7 +109,7 @@ mc_set_link "$csi41name" 2 "$vinname7" 1
 do_fail_group2 0
 
 echo "Setup links for chsel 1"
-media-ctl -r
+mc_reset
 mc_set_link "$csi20name" 1 "$vinname0" 1
 mc_set_link "$csi21name" 1 "$vinname1" 1
 mc_set_link "$csi40name" 1 "$vinname2" 1
@@ -122,7 +122,7 @@ mc_set_link "$csi20name" 2 "$vinname7" 1
 do_fail_group2 1
 
 echo "Setup links for chsel 2"
-media-ctl -r
+mc_reset
 mc_set_link "$csi21name" 1 "$vinname0" 1
 mc_set_link "$csi40name" 1 "$vinname1" 1
 mc_set_link "$csi20name" 1 "$vinname2" 1
@@ -135,7 +135,7 @@ mc_set_link "$csi21name" 2 "$vinname7" 1
 do_fail_group2 2
 
 echo "Setup links for chsel 3"
-media-ctl -r
+mc_reset
 mc_set_link "$csi40name" 1 "$vinname0" 1
 mc_set_link "$csi40name" 2 "$vinname1" 1
 mc_set_link "$csi40name" 3 "$vinname2" 1
@@ -152,7 +152,7 @@ else
 fi
 
 echo "Setup links for chsel 4"
-media-ctl -r
+mc_reset
 mc_set_link "$csi20name" 1 "$vinname0" 1
 mc_set_link "$csi20name" 2 "$vinname1" 1
 mc_set_link "$csi20name" 3 "$vinname2" 1
@@ -166,7 +166,7 @@ do_fail_group2 4
 
 if mc_ensure "$csi21name"; then
     echo "Setup links for chsel 5"
-    media-ctl -r
+    mc_reset
     mc_set_link "$csi21name" 1 "$vinname0" 1
     mc_set_link "$csi21name" 2 "$vinname1" 1
     mc_set_link "$csi21name" 3 "$vinname2" 1

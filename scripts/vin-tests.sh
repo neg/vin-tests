@@ -129,6 +129,12 @@ mc_ensure() {
     return 0
 }
 
+mc_reset() {
+    mdev=$(mc_get_mdev)
+
+    $mediactl -d $mdev -r
+}
+
 mc_mc_set_link_raw()
 {
     mdev=$(mc_get_mdev)
