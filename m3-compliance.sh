@@ -2,7 +2,7 @@
 
 set -e
 
-base=$(readlink -f $(dirname $0))
+base=$(dirname $(readlink -f $0))
 
 source $base/scripts/vin-tests.sh
 source $base/scripts/m3.sh

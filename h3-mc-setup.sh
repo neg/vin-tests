@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base=$(readlink -f $(dirname $0))
+base=$(dirname $(readlink -f $0))
 
 source $base/scripts/mc-setup.sh
 source $base/scripts/h3.sh

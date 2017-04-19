@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base=$(readlink -f $(dirname $0))
+base=$(dirname $(readlink -f $0))
 
 if [ $# -ne 3 ]; then
     echo "usage: $0 <V4L2 device> <Connector> <CRTC>"

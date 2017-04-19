@@ -1,6 +1,6 @@
 #!/bin/bash
 
-base=$(readlink -f $(dirname $0))
+base=$(dirname $(readlink -f $0))
 
 $base/h3-mc-setup.sh || exit 1
 $base/h3-compliance.sh || exit 1
