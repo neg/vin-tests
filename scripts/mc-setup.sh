@@ -40,7 +40,7 @@ mc_test_chsel_lock() {
     vinc=$9
 
     echo "Testing dual settings based on $deva:$pada -> $vina"
-    media-ctl -r
+    mc_reset
     # Set the dual link
     mc_set_link "$deva" $pada "$vina" 1
 
