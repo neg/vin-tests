@@ -171,8 +171,9 @@ mc_propagate_format() {
     mdev=$(mc_get_mdev)
 
     cam="'$1':$2"
-    csi="'$3':$4"
-    vin="$5"
+    atx="'$3':$4"
+    csi="'$5':$6"
+    vin="$7"
 
     format=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:\([^/]*\).*|\1|')
     size=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
@@ -182,6 +183,21 @@ mc_propagate_format() {
     echo "format: $format size: $size field: $field vdev: $vdev"
 
     $mediactl -d $mdev -V "$cam [fmt:$format/$size field:$field]"
+    $mediactl -d $mdev -V "$atx [fmt:$format/$size field:$field]"
     $mediactl -d $mdev -V "$csi [fmt:$format/$size field:$field]"
     yavta -f RGB565 -s $size --field $field $vdev
+}
+
+# HDMI can only output to TXA on the ADV748x
+mc_propagate_hdmi() {
+    vin="$1"
+
+    mc_propagate_format "$hdminame" 1 "$txaname" 0 "$csi40name" 1 "$vin"
+}
+
+# CVBS is only currently supported on TXB
+mc_propagate_cvbs() {
+    vin="$1"
+
+    mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" 1 "$vin"
 }
