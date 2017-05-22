@@ -1,0 +1,26 @@
+#!/bin/sh
+
+base=$(dirname $(readlink -f $0))
+
+source $base/scripts/h3.sh
+source $base/scripts/vin-tests.sh
+
+$base/h3-links.sh
+
+mkdir -p /run/tmp/
+cd /run/tmp/
+
+mdev=$(mc_get_mdev)
+src="'$hdminame':1"
+size=$($mediactl -d $mdev --get-v4l2 "$src" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
+
+echo mdev : $mdev
+echo size : $size
+
+rm frame-000*
+yavta -n 4 --capture=10 /dev/$vin0 -F $*
+
+strings frame*.bin | head | wc -l
+md5sum frame*.bin
+for f in frame*.bin ; do $base/convert.sh $f $size; done;
+
