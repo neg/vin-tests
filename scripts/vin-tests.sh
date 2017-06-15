@@ -83,17 +83,6 @@ test_qv4l2() {
     confirm "Are qv4l2 for $dev ok"
 }
 
-test_qv4l2_dual() {
-    deva=/dev/$1
-    devb=/dev/$2
-
-    echo "* dual qv4l2"
-    qv4l2 -d $deva &
-    qv4l2 -d $devb &
-    wait
-    confirm "Are dual qv4l2 for $deva and $devb ok"
-}
-
 # Media controller
 
 mediactl="media-ctl"

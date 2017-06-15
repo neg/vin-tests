@@ -19,9 +19,3 @@ test_qv4l2 $vin0
 
 # Test CVBS
 test_qv4l2 $vin1
-
-# Test dual CVBS
-test_qv4l2_dual $vin1 $vin6
-
-# Test dual CVBS+HDMI
-test_qv4l2_dual $vin1 $vin0
