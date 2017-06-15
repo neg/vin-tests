@@ -5,7 +5,7 @@ set -e
 base=$(readlink -f $(dirname $0))
 
 source $base/scripts/vin-tests.sh
-source $base/scripts/h3.sh
+source $base/scripts/boards.sh
 
 mc_reset
 mc_set_link "$csi40name" 1 "$vinname0" 1

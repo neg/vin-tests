@@ -2,10 +2,10 @@
 
 base=$(dirname $(readlink -f $0))
 
-source $base/scripts/h3.sh
 source $base/scripts/vin-tests.sh
+source $base/scripts/boards.sh
 
-$base/h3-links.sh
+$base/gen3-links.sh
 
 mkdir -p /run/tmp/
 cd /run/tmp/
