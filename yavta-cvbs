@@ -7,16 +7,16 @@ source $base/scripts/boards.sh
 
 $base/gen3-links.sh
 
-mkdir -p /run/tmp/
-cd /run/tmp/
+out=/tmp/vin-tests
+rm -fr $out
+mkdir -p $out
 
 mdev=$(mc_get_mdev)
 src="'$cvbsname':8"
 size=$($mediactl -d $mdev --get-v4l2 "$src" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
 
-rm frame-000*
-yavta -n 4 --capture=10 /dev/$vin1 -F $*
+yavta -n 4 --capture=10 /dev/$vin1 --file=$out/frame-#.bin $*
 
-strings frame*.bin | head | wc -l
-md5sum frame*.bin
-for f in frame*.bin ; do $base/convert.sh $f $size ; done;
+strings $out/frame*.bin | head | wc -l
+md5sum $out/frame*.bin
+for f in $out/frame*.bin ; do $base/convert.sh $f $size ; done;
