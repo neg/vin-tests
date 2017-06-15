@@ -3,7 +3,7 @@
 base=$(dirname $(readlink -f $0))
 
 source $base/scripts/mc-setup.sh
-source $base/scripts/h3.sh
+source $base/scripts/boards.sh
 
 do_fail_group1() {
     chsel=$1
