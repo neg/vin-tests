@@ -166,7 +166,7 @@ mc_propagate_format() {
 
     format=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:\([^/]*\).*|\1|')
     size=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
-    field=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*field:\([^]]*\).*|\1|')
+    field=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*field:\([^] ]*\).*|\1|')
     vdev=$($mediactl -d $mdev -e "$vin" )
 
     echo "format: $format size: $size field: $field vdev: $vdev"
