@@ -4,6 +4,19 @@ base=$(dirname $(readlink -f $0))
 
 source $base/scripts/vin-tests.sh
 
+mc_make_skip() {
+    csi1n=$1
+    csi1p=$2
+    csi2n=$3
+    csi2p=$4
+
+    if [[ $csi1n == $csi2n && $csi1p == $csi2p ]]; then
+        echo 1
+    else
+        echo 0
+    fi
+}
+
 mc_test_should_fail() {
     src=$1
     pad=$2
