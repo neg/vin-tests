@@ -11,9 +11,7 @@ out=/tmp/vin-tests
 rm -fr $out
 mkdir -p $out
 
-mdev=$(mc_get_mdev)
-src="'$hdminame':1"
-size=$($mediactl -d $mdev --get-v4l2 "$src" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
+size=$(v4l2-ctl --all -d /dev/$vin0  | awk '/Width/{print $3}' | tr '/' 'x')
 
 yavta -n 4 --capture=10 /dev/$vin0 --file=$out/frame-#.bin $*
 
