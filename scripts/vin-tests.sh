@@ -169,12 +169,22 @@ mc_propagate_format() {
     field=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*field:\([^] ]*\).*|\1|')
     vdev=$($mediactl -d $mdev -e "$vin" )
 
-    echo "format: $format size: $size field: $field vdev: $vdev"
+    vinsize=$size
+    vinfield=$field
+
+    if [[ "$field" == "alternate" ]]; then
+        width=$(echo $size | awk -Fx '{print $1}')
+        height=$(echo $size | awk -Fx '{print $2}')
+        vinsize="${width}x$(($height * 2))"
+        vinfield="interlaced"
+    fi
+
+    echo "format: $format size: $size/$vinsize field: $field/$vinfield vdev: $vdev"
 
     $mediactl -d $mdev -V "$cam [fmt:$format/$size field:$field]"
     $mediactl -d $mdev -V "$atx [fmt:$format/$size field:$field]"
     $mediactl -d $mdev -V "$csi [fmt:$format/$size field:$field]"
-    yavta -f RGB565 -s $size --field $field $vdev
+    yavta -f RGB565 -s $vinsize --field $vinfield $vdev
 }
 
 # HDMI can only output to TXA on the ADV748x
