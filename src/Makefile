@@ -1,4 +1,4 @@
-SUBDIRS=dmabuf-sharing
+SUBDIRS=dmabuf-sharing edid
 
 recursive=all clean
 

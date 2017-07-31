@@ -1,0 +1,14 @@
+This is a selective copy of the edid tool written by
+
+  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+The edid tool is originally part of a set of tools to work with 
+subdevices and the original repo is:
+
+  git://git.ideasonboard.com/xilinx/edid.git
+
+Tool is copied to the vin-tests repo since it can't be expected to be 
+found in many distributions. And it's needed to be able to program EDID 
+information on subdevices pads. Once v4l-utils or other more generic 
+tool gains this ability the vin-tests scripts should be updated to use 
+such tool instead.
