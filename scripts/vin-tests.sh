@@ -98,6 +98,20 @@ mc_get_mdev() {
     error "Can't find media device"
 }
 
+mc_get_dev() {
+    name=$1
+    mdev=$(mc_get_mdev)
+
+    for dev in  /sys/class/video4linux/*; do
+        if [[ "$(cat $dev/name)" == "$name" ]]; then
+            basename $dev
+            return 0
+        fi
+    done
+
+    error "Can't find device"
+}
+
 mc_log() {
     src=$1
     pad=$2

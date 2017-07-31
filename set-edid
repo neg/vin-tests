@@ -1,0 +1,8 @@
+#!/bin/bash
+
+base=$(dirname $(readlink -f $0))
+
+source $base/scripts/vin-tests.sh
+source $base/scripts/boards.sh
+
+$base/src/edid/edid /dev/$(mc_get_dev "$hdminame") 0 $base/scripts/Samsung-32-TV.edid
