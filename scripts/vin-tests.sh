@@ -99,17 +99,9 @@ mc_get_mdev() {
 }
 
 mc_get_dev() {
-    name=$1
-    mdev=$(mc_get_mdev)
-
-    for dev in  /sys/class/video4linux/*; do
-        if [[ "$(cat $dev/name)" == "$name" ]]; then
-            basename $dev
-            return 0
-        fi
-    done
-
-    error "Can't find device"
+    name="$1"
+    grep -l "$name" /sys/class/video4linux/video*/name | \
+	    sed 's#.*video4linux\(.*\)/name#/dev\1#g'
 }
 
 mc_log() {
