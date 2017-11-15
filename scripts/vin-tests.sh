@@ -100,7 +100,7 @@ mc_get_mdev() {
 
 mc_get_dev() {
     name="$1"
-    grep -l "$name" /sys/class/video4linux/video*/name | \
+    grep -l "$name" /sys/class/video4linux/*/name | \
 	    sed 's#.*video4linux\(.*\)/name#/dev\1#g'
 }
 
