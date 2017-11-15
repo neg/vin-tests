@@ -21,7 +21,7 @@ BEGIN {
 	print
 }
 
-/max9271_write/ {
+/max9271_write.*write failed/ {
 	max9271_write_fail++
 	print
 }
