@@ -101,6 +101,28 @@ case $info in
         txbname="adv748x 4-0070 txb"
         ;;
 
+    "Renesas Eagle board based on r8a77970")
+        echo "Board: V3M"
+        gen="gen3"
+        vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
+        vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
+        vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
+        vin3=$(basename /sys/devices/platform/soc/e6ef3000.video/video4linux/video*)
+
+        vinname0="rcar_vin e6ef0000.video"
+        vinname1="rcar_vin e6ef1000.video"
+        vinname2="rcar_vin e6ef2000.video"
+        vinname3="rcar_vin e6ef3000.video"
+
+        csi40name="rcar_csi2 feaa0000.csi2"
+
+        cvbsname="adv748x 0-0070 afe"
+        hdminame="adv748x 0-0070 hdmi"
+
+        txaname="adv748x 0-0070 txa"
+        txbname="adv748x 0-0070 txb"
+        ;;
+
     "Koelsch")
         echo "Board: M2"
         gen="gen2"
