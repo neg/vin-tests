@@ -5,4 +5,17 @@ base=$(dirname $(readlink -f $0))
 source $base/scripts/vin-tests.sh
 source $base/scripts/boards.sh
 
-$base/src/edid/edid $(mc_get_dev "$hdminame") 0 $base/scripts/Samsung-32-TV.edid
+case $gen in
+    "gen2")
+        echo v4l2-ctl -d $(mc_get_dev "$hdminame") --set-edid=type=hdmi
+        v4l2-ctl -d $(mc_get_dev "$hdminame") --set-edid=type=hdmi
+        ;;
+
+    "gen3")
+        $base/src/edid/edid $(mc_get_dev "$hdminame") 0 $base/scripts/Samsung-32-TV.edid
+        ;;
+    *)
+        echo "Unkown generation '$gen'"
+        exit 1
+        ;;
+esac
