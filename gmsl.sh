@@ -11,6 +11,12 @@ out=$base/output
 rm -fr $out
 mkdir $out
 
+function conf() {
+    CSI="$1"
+    IDX="$2"
+    media-ctl -d $mdev -V "'$CSI':$IDX [fmt:UYVY8_2X8/1280x800 field:none]"
+}
+
 function capture() {
     CSI="$1"
     IDX="$2"
@@ -18,11 +24,31 @@ function capture() {
     VID="$4"
 
     mc_set_link "$CSI" $IDX "$VIN" 1
-    media-ctl -d $mdev -V "'$CSI':$IDX [fmt:UYVY8_2X8/1280x800 field:none]"
     yavta -f YUYV -s 1280x800 -c10 --skip 7 --file="$out/$VID-#.bin" /dev/${!VID}
 }
 
 mc_reset
+
+# Need to configure all formats going through each MAX9286
+for cam in "$@"; do
+	case $cam in
+        1|2|3|4)
+            conf  "$csi40name" 1
+            conf  "$csi40name" 2
+            conf  "$csi40name" 3
+            conf  "$csi40name" 4
+            ;;
+        5|6|7|8)
+            conf  "$csi41name" 1
+            conf  "$csi41name" 2
+            conf  "$csi41name" 3
+            conf  "$csi41name" 4
+            ;;
+	    *)
+		echo "Unrecognised camera $cam"
+		;;
+	esac
+done
 
 for cam in "$@"
 do
