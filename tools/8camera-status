@@ -79,7 +79,7 @@ function PrintCameras()
 }
 
 function Summarise() {
-	ParseProbe ( probe_order )
+	ParseProbe( probe_order )
 	print "Parsing 8 Cameras on " kernel
 	print "Probe order is " probe_order
 
