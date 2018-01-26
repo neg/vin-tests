@@ -16,14 +16,14 @@ case $info in
         vin6=$(basename /sys/devices/platform/soc/e6ef6000.video/video4linux/video*)
         vin7=$(basename /sys/devices/platform/soc/e6ef7000.video/video4linux/video*)
 
-        vinname0="rcar_vin e6ef0000.video"
-        vinname1="rcar_vin e6ef1000.video"
-        vinname2="rcar_vin e6ef2000.video"
-        vinname3="rcar_vin e6ef3000.video"
-        vinname4="rcar_vin e6ef4000.video"
-        vinname5="rcar_vin e6ef5000.video"
-        vinname6="rcar_vin e6ef6000.video"
-        vinname7="rcar_vin e6ef7000.video"
+        vinname0="VIN0 output"
+        vinname1="VIN1 output"
+        vinname2="VIN2 output"
+        vinname3="VIN3 output"
+        vinname4="VIN4 output"
+        vinname5="VIN5 output"
+        vinname6="VIN6 output"
+        vinname7="VIN7 output"
 
         csi20name="rcar_csi2 fea80000.csi2"
         csi21name="rcar_csi2 fea90000.csi2"
@@ -50,14 +50,14 @@ case $info in
         vin6=$(basename /sys/devices/platform/soc/e6ef6000.video/video4linux/video*)
         vin7=$(basename /sys/devices/platform/soc/e6ef7000.video/video4linux/video*)
 
-        vinname0="rcar_vin e6ef0000.video"
-        vinname1="rcar_vin e6ef1000.video"
-        vinname2="rcar_vin e6ef2000.video"
-        vinname3="rcar_vin e6ef3000.video"
-        vinname4="rcar_vin e6ef4000.video"
-        vinname5="rcar_vin e6ef5000.video"
-        vinname6="rcar_vin e6ef6000.video"
-        vinname7="rcar_vin e6ef7000.video"
+        vinname0="VIN0 output"
+        vinname1="VIN1 output"
+        vinname2="VIN2 output"
+        vinname3="VIN3 output"
+        vinname4="VIN4 output"
+        vinname5="VIN5 output"
+        vinname6="VIN6 output"
+        vinname7="VIN7 output"
 
         csi20name="rcar_csi2 fea80000.csi2"
         csi40name="rcar_csi2 feaa0000.csi2"
@@ -82,14 +82,14 @@ case $info in
         vin6=$(basename /sys/devices/platform/soc/e6ef6000.video/video4linux/video*)
         vin7=$(basename /sys/devices/platform/soc/e6ef7000.video/video4linux/video*)
 
-        vinname0="rcar_vin e6ef0000.video"
-        vinname1="rcar_vin e6ef1000.video"
-        vinname2="rcar_vin e6ef2000.video"
-        vinname3="rcar_vin e6ef3000.video"
-        vinname4="rcar_vin e6ef4000.video"
-        vinname5="rcar_vin e6ef5000.video"
-        vinname6="rcar_vin e6ef6000.video"
-        vinname7="rcar_vin e6ef7000.video"
+        vinname0="VIN0 output"
+        vinname1="VIN1 output"
+        vinname2="VIN2 output"
+        vinname3="VIN3 output"
+        vinname4="VIN4 output"
+        vinname5="VIN5 output"
+        vinname6="VIN6 output"
+        vinname7="VIN7 output"
 
         csi20name="rcar_csi2 fea80000.csi2"
         csi40name="rcar_csi2 feaa0000.csi2"
@@ -109,10 +109,10 @@ case $info in
         vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
         vin3=$(basename /sys/devices/platform/soc/e6ef3000.video/video4linux/video*)
 
-        vinname0="rcar_vin e6ef0000.video"
-        vinname1="rcar_vin e6ef1000.video"
-        vinname2="rcar_vin e6ef2000.video"
-        vinname3="rcar_vin e6ef3000.video"
+        vinname0="VIN0 output"
+        vinname1="VIN1 output"
+        vinname2="VIN2 output"
+        vinname3="VIN3 output"
 
         csi40name="rcar_csi2 feaa0000.csi2"
 

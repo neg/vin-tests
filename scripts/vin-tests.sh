@@ -89,7 +89,7 @@ mediactl="media-ctl"
 
 mc_get_mdev() {
     for mdev in /dev/media* ; do
-        if [[ "$($mediactl -d $mdev -p | grep 'Renesas VIN')" != "" ]]; then
+        if [[ "$($mediactl -d $mdev -p | grep 'rcar_vin')" != "" ]]; then
             echo $mdev
             return 0
         fi
