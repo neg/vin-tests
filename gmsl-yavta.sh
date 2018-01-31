@@ -83,5 +83,5 @@ wait
 
 for f in $out/*bin; do
     name=$(basename $f .bin)
-    raw2rgbpnm -f YUYV -s 1280x800 $out/$name.bin $out/$name.pnm
+    raw2rgbpnm -f YUYV -s 1280x800 $out/$name.bin $out/$name.ppm
 done
