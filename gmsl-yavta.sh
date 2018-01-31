@@ -22,13 +22,17 @@ function conf() {
 
 function capture() {
     VID="$1"
+    vid=$(eval echo \$$VID)
 
-    yavta -f YUYV -s 1280x800 -c10 --skip 7 --file="$out/$VID-#.bin" /dev/${!VID} &
+    yavta -f YUYV -s 1280x800 -c10 --skip 7 --file="$out/$VID-#.bin" /dev/$vid &
 }
 
 mc_reset
 
 # Need to configure all formats going through each MAX9286
+conf1234=0
+conf5678=0
+
 for cam in "$@"; do
 	case $cam in
         1|2|3|4)
