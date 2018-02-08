@@ -2,15 +2,13 @@
 
 base=$(dirname $(readlink -f $0))
 
-if [ $# -ne 3 ]; then
-    echo "usage: $0 <V4L2 device> <Connector> <CRTC>"
-    echo "       $0 /dev/video25 66 64"
+if [ $# -ne 1 ]; then
+    echo "usage: $0 <V4L2 device>"
+    echo "       $0 /dev/video25"
     exit 1
 fi
 
 vdev=$1
-connector=$2
-crtc=$3
 
 # ADV7482 do not notify on format changes, preform manual probe
 case $(v4l2-ctl --list-inputs -d $vdev | awk '/Capabilities/{print $2};') in
@@ -26,6 +24,9 @@ case $(v4l2-ctl --list-inputs -d $vdev | awk '/Capabilities/{print $2};') in
         exit 1
         ;;
 esac
+
+connector=$(modetest -c -M rcar-du | awk '/connected/{print $1}')
+crtc=$(modetest -e -M rcar-du | awk '/^[0-9]+/{print $2}')
 
 # Figure out resolution, the DU is very pick about this, if it do not match perfectly
 # it will fail with a cryptic IOCTL -EINVAL error
