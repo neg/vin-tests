@@ -2,6 +2,8 @@
 
 base=$(dirname $(readlink -f $0))
 
+source $base/../scripts/boards.sh
+
 if [ $# -ne 1 ]; then
     echo "usage: $0 <V4L2 device>"
     echo "       $0 /dev/video25"
@@ -10,17 +12,34 @@ fi
 
 vdev=$1
 
-# ADV7482 do not notify on format changes, preform manual probe
-case $(v4l2-ctl --list-inputs -d $vdev | awk '/Capabilities/{print $2};') in
-    "0x00000002")
-        v4l2-ctl --set-dv-bt-timings=query -d $vdev
+case $gen in
+    "gen2")
+        # ADV7482 do not notify on format changes, preform manual probe
+        case $(v4l2-ctl --list-inputs -d $vdev | awk '/Capabilities/{print $2};') in
+            "0x00000002")
+                v4l2-ctl --set-dv-bt-timings=query -d $vdev
+                ;;
+            "0x00000004")
+                std=$(v4l2-ctl --get-detected-standard -d $vdev | awk '/Video Standard/{print $4}')
+                v4l2-ctl --set-standard=$std -d $vdev
+                ;;
+            *)
+                echo "Unkown Capabilities"
+                exit 1
+                ;;
+        esac
         ;;
-    "0x00000004")
-        std=$(v4l2-ctl --get-detected-standard -d $vdev | awk '/Video Standard/{print $4}')
-        v4l2-ctl --set-standard=$std -d $vdev
+    "gen3")
+        echo ""
+        echo "================================================================"
+        echo "= Remember to configure the pipeline before running $0!"
+        echo "="
+        echo "= Any -EPIPE errors is likely caused by the pipeline not beeing configured."
+        echo "================================================================"
+        echo ""
         ;;
     *)
-        echo "Unkown Capabilities"
+        echo "Unkown generation '$gen'"
         exit 1
         ;;
 esac
