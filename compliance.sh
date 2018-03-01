@@ -12,6 +12,7 @@ test_compliance_begin
 case $gen in
     "gen2")
         v4l2-ctl --set-dv-bt-timings=query -d /dev/$vin0
+        $base/set-edid
         test_compliance $vin0
 
         std=$(v4l2-ctl --get-detected-standard -d /dev/$vin1 | awk '/Video Standard/{print $4}')
