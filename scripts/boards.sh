@@ -126,8 +126,14 @@ case $info in
     "Koelsch")
         echo "Board: M2"
         gen="gen2"
-        vin0=$(basename /sys/devices/platform/e6ef0000.video/video4linux/video*)
-        vin1=$(basename /sys/devices/platform/e6ef1000.video/video4linux/video*)
+
+        if [ -d /sys/devices/platform/soc ]; then
+            vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
+            vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
+        else
+            vin0=$(basename /sys/devices/platform/e6ef0000.video/video4linux/video*)
+            vin1=$(basename /sys/devices/platform/e6ef1000.video/video4linux/video*)
+        fi
 
         hdminame="adv7612 2-004c"
         ;;
