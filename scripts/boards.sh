@@ -135,7 +135,7 @@ case $info in
             vin1=$(basename /sys/devices/platform/e6ef1000.video/video4linux/video*)
         fi
 
-        hdminame="adv7612 2-004c"
+        hdminame="adv7612"
         ;;
 
     *)
