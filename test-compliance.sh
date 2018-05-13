@@ -53,5 +53,3 @@ esac
 
 # Print any log which happens when running test
 dmesg | sed "1,/$marker/d"
-
-confirm "Are compliance dmesg output ok"

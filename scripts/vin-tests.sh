@@ -1,38 +1,5 @@
 #!/bin/bash
 
-error() {
-    echo "Error: $*" > /dev/stderr
-    exit 1
-}
-
-confirm() {
-    local text=$1
-
-    unset REPLY
-
-    echo "====="
-
-    while [[ ! $REPLY =~ ^[Nn]$ ]]; do
-        read -p "$text (Y/n) " -n 1 -r
-
-        case $REPLY in
-            [Yy])
-                echo
-                return 0
-                ;;
-            "")
-                return 0
-                ;;
-        esac
-        echo
-    done
-
-    echo -e "Fail"
-    exit 1
-}
-
-# Media controller
-
 mediactl="media-ctl"
 
 mc_get_mdev() {
@@ -43,7 +10,8 @@ mc_get_mdev() {
         fi
     done
 
-    error "Can't find media device"
+    echo "Error: Can't find media device" > /dev/stderr
+    exit 1
 }
 
 mc_get_dev() {
@@ -54,7 +22,6 @@ mc_get_dev() {
 
 mc_reset() {
     mdev=$(mc_get_mdev)
-
     $mediactl -d $mdev -r
 }
 
