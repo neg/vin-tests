@@ -355,6 +355,8 @@ def main(argv):
             status = test(h3_m3n)
     elif model == "renesas,vin-r8a7796":
         status = test(m3w)
+    elif model == "renesas,vin-r8a77965":
+        status = test(h3_m3n)
     else:
         print("Unkown model %s" % (model))
         sys.exit(1)

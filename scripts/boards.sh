@@ -13,7 +13,8 @@ case $info in
         vins="0 1 2 3 4 5 6 7"
         csis="20 40 41"
         ;;
-    "Renesas Salvator-X board based on r8a7796")
+    "Renesas Salvator-X board based on r8a7796" | \
+        "Renesas Salvator-X 2nd version board based on r8a77965")
         gen="gen3"
         vins="0 1 2 3 4 5 6 7"
         csis="20 40"
