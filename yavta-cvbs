@@ -1,19 +1,54 @@
 #!/bin/sh
 
+set -e
+
 base=$(dirname $(readlink -f $0))
 
 source $base/scripts/vin-tests.sh
 source $base/scripts/boards.sh
 
-$base/gen3-links.sh
+vc=0
+if [[ $# -eq 1 ]]; then
+    vc=$1
+fi
+
+case $vc in
+    0)
+        vinname=$vinname0
+        dev=/dev/$vin0
+        csipad=1
+        ;;
+    1)
+        vinname=$vinname1
+        dev=/dev/$vin1
+        csipad=2
+        ;;
+    2)
+        vinname=$vinname2
+        dev=/dev/$vin2
+        csipad=3
+        ;;
+    3)
+        vinname=$vinname3
+        dev=/dev/$vin3
+        csipad=4
+        ;;
+    *)
+        echo "Unkown VC '$vc'"
+        exit 1
+esac
+
+mc_reset
+mc_set_link "$csi20name" $csipad "$vinname" 1
+mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" $csipad "$vinname"
 
 out=/tmp/vin-tests
 rm -fr $out
 mkdir -p $out
 
-size=$(v4l2-ctl --all -d /dev/$vin1  | awk '/Width/{print $3}' | tr '/' 'x')
+size=$(v4l2-ctl --all -d $dev  | awk '/Width/{print $3}' | tr '/' 'x')
 
-yavta -n 4 --capture=10 /dev/$vin1 --file=$out/frame-#.bin $*
+yavta -n 4 --capture=10 $dev --file=$out/frame-#.bin $*
 
 strings $out/frame*.bin | head | wc -l
 md5sum $out/frame*.bin
