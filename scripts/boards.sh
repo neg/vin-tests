@@ -4,125 +4,26 @@ info=$(strings /proc/device-tree/model)
 
 case $info in
     "Renesas Salvator-X board based on r8a7795 ES1.x")
-        echo "Board: H3 ES1.x"
         gen="gen3"
-        vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
-        vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
-        vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
-        vin3=$(basename /sys/devices/platform/soc/e6ef3000.video/video4linux/video*)
-        vin4=$(basename /sys/devices/platform/soc/e6ef4000.video/video4linux/video*)
-        vin5=$(basename /sys/devices/platform/soc/e6ef5000.video/video4linux/video*)
-        vin6=$(basename /sys/devices/platform/soc/e6ef6000.video/video4linux/video*)
-        vin7=$(basename /sys/devices/platform/soc/e6ef7000.video/video4linux/video*)
-
-        vinname0="VIN0 output"
-        vinname1="VIN1 output"
-        vinname2="VIN2 output"
-        vinname3="VIN3 output"
-        vinname4="VIN4 output"
-        vinname5="VIN5 output"
-        vinname6="VIN6 output"
-        vinname7="VIN7 output"
-
-        csi20name="rcar_csi2 fea80000.csi2"
-        csi21name="rcar_csi2 fea90000.csi2"
-        csi40name="rcar_csi2 feaa0000.csi2"
-        csi41name="rcar_csi2 feab0000.csi2"
-
-        cvbsname="adv748x 4-0070 afe"
-        hdminame="adv748x 4-0070 hdmi"
-
-        txaname="adv748x 4-0070 txa"
-        txbname="adv748x 4-0070 txb"
+        vins="0 1 2 3 4 5 6 7"
+        csis="20 21 40 41"
         ;;
-
     "Renesas Salvator-X 2nd version board based on r8a7795 ES2.0+")
-        echo "Board: H3 ES2.0+"
         gen="gen3"
-        vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
-        vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
-        vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
-        vin3=$(basename /sys/devices/platform/soc/e6ef3000.video/video4linux/video*)
-        vin4=$(basename /sys/devices/platform/soc/e6ef4000.video/video4linux/video*)
-        vin5=$(basename /sys/devices/platform/soc/e6ef5000.video/video4linux/video*)
-        vin6=$(basename /sys/devices/platform/soc/e6ef6000.video/video4linux/video*)
-        vin7=$(basename /sys/devices/platform/soc/e6ef7000.video/video4linux/video*)
-
-        vinname0="VIN0 output"
-        vinname1="VIN1 output"
-        vinname2="VIN2 output"
-        vinname3="VIN3 output"
-        vinname4="VIN4 output"
-        vinname5="VIN5 output"
-        vinname6="VIN6 output"
-        vinname7="VIN7 output"
-
-        csi20name="rcar_csi2 fea80000.csi2"
-        csi40name="rcar_csi2 feaa0000.csi2"
-        csi41name="rcar_csi2 feab0000.csi2"
-
-        cvbsname="adv748x 4-0070 afe"
-        hdminame="adv748x 4-0070 hdmi"
-
-        txaname="adv748x 4-0070 txa"
-        txbname="adv748x 4-0070 txb"
+        vins="0 1 2 3 4 5 6 7"
+        csis="20 40 41"
         ;;
-
     "Renesas Salvator-X board based on r8a7796")
-        echo "Board: M3"
         gen="gen3"
-        vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
-        vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
-        vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
-        vin3=$(basename /sys/devices/platform/soc/e6ef3000.video/video4linux/video*)
-        vin4=$(basename /sys/devices/platform/soc/e6ef4000.video/video4linux/video*)
-        vin5=$(basename /sys/devices/platform/soc/e6ef5000.video/video4linux/video*)
-        vin6=$(basename /sys/devices/platform/soc/e6ef6000.video/video4linux/video*)
-        vin7=$(basename /sys/devices/platform/soc/e6ef7000.video/video4linux/video*)
-
-        vinname0="VIN0 output"
-        vinname1="VIN1 output"
-        vinname2="VIN2 output"
-        vinname3="VIN3 output"
-        vinname4="VIN4 output"
-        vinname5="VIN5 output"
-        vinname6="VIN6 output"
-        vinname7="VIN7 output"
-
-        csi20name="rcar_csi2 fea80000.csi2"
-        csi40name="rcar_csi2 feaa0000.csi2"
-
-        cvbsname="adv748x 4-0070 afe"
-        hdminame="adv748x 4-0070 hdmi"
-
-        txaname="adv748x 4-0070 txa"
-        txbname="adv748x 4-0070 txb"
+        vins="0 1 2 3 4 5 6 7"
+        csis="20 40"
         ;;
-
     "Renesas Eagle board based on r8a77970")
-        echo "Board: V3M"
         gen="gen3"
-        vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
-        vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
-        vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
-        vin3=$(basename /sys/devices/platform/soc/e6ef3000.video/video4linux/video*)
-
-        vinname0="VIN0 output"
-        vinname1="VIN1 output"
-        vinname2="VIN2 output"
-        vinname3="VIN3 output"
-
-        csi40name="rcar_csi2 feaa0000.csi2"
-
-        cvbsname="adv748x 0-0070 afe"
-        hdminame="adv748x 0-0070 hdmi"
-
-        txaname="adv748x 0-0070 txa"
-        txbname="adv748x 0-0070 txb"
+        vins="0 1 2 3"
+        csis="40"
         ;;
-
     "Koelsch")
-        echo "Board: M2"
         gen="gen2"
 
         if [ -d /sys/devices/platform/soc ]; then
@@ -141,3 +42,25 @@ case $info in
         exit 1
         ;;
 esac
+
+if [[ "$gen" == "gen3" ]]; then
+    for vin in $vins; do
+        eval "vin$vin=$(basename /sys/devices/platform/soc/e6ef${vin}000.video/video4linux/video*)"
+        eval "vinname$vin='VIN$vin output'"
+    done
+
+    for csi in $csis; do
+        case $csi in
+            20) csi20name="rcar_csi2 fea80000.csi2" ;;
+            21) csi21name="rcar_csi2 fea90000.csi2" ;;
+            40) csi40name="rcar_csi2 feaa0000.csi2" ;;
+            41) csi41name="rcar_csi2 feab0000.csi2" ;;
+        esac
+    done
+
+    cvbsname="adv748x 4-0070 afe"
+    hdminame="adv748x 4-0070 hdmi"
+
+    txaname="adv748x 4-0070 txa"
+    txbname="adv748x 4-0070 txb"
+fi
