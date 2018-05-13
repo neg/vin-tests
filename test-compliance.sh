@@ -7,61 +7,17 @@ base=$(dirname $(readlink -f $0))
 source $base/scripts/vin-tests.sh
 source $base/scripts/boards.sh
 
-test_compliance_begin() {
-    # clear dmesg
-    dmesg -c > /dev/null
-}
-
-test_compliance() {
-    dev=/dev/$1
-
-    if [ ! -c $dev ]; then
-        echo "ERROR: $dev is not a video device"
-        exit 1
-    fi
-
-    echo "* v4l2-compliance"
-    echo "v4l2-compliance for $dev" > /dev/kmsg
-    if ! v4l2-compliance -d $dev -s -f; then
-        echo "compliance failed for $dev"
-        exit 1
-    fi
-}
-
-test_compliance_mc() {
-    dev=/dev/$1
-
-    if [ ! -c $dev ]; then
-        echo "ERROR: $dev is not a video device"
-        exit 1
-    fi
-
-    echo "* v4l2-compliance"
-    echo "v4l2-compliance for $dev" > /dev/kmsg
-    if ! v4l2-compliance -d $dev -s; then
-        echo "compliance failed for $dev"
-        exit 1
-    fi
-}
-
-test_compliance_end() {
-    echo "* dmesg"
-    dmesg
-
-    confirm "Are compliance dmesg output ok"
-}
-
-test_compliance_begin
+marker=$(dmesg | tail -n 1 | sed 's/^\[\([^]]*\)\].*/\1/g')
 
 case $gen in
     "gen2")
         v4l2-ctl --set-dv-bt-timings=query -d /dev/$vin0
         $base/set-edid
-        test_compliance $vin0
+        v4l2-compliance -d /dev/$vin0 -s -f
 
         std=$(v4l2-ctl --get-detected-standard -d /dev/$vin1 | awk '/Video Standard/{print $4}')
         v4l2-ctl --set-standard=$std -d /dev/$vin1
-        test_compliance $vin1
+        v4l2-compliance -d /dev/$vin1 -s -f
 
         # Make sure we can dequeue all buffers
         yavta -f RGB565 -s 640x480 -n 4 --capture=10 /dev/$vin0
@@ -74,16 +30,16 @@ case $gen in
         mc_set_link "$csi20name" 1 "$vinname1" 1
         mc_propagate_hdmi "$vinname0"
         mc_propagate_cvbs "$vinname1"
-        test_compliance_mc $vin0
-        test_compliance_mc $vin1
+        v4l2-compliance -d /dev/$vin0 -s
+        v4l2-compliance -d /dev/$vin1 -s
 
         mc_reset
         mc_set_link "$csi40name" 1 "$vinname2" 1
         mc_set_link "$csi20name" 1 "$vinname4" 1
         mc_propagate_hdmi "$vinname2"
         mc_propagate_cvbs "$vinname4"
-        test_compliance_mc $vin2
-        test_compliance_mc $vin4
+        v4l2-compliance -d /dev/$vin2 -s
+        v4l2-compliance -d /dev/$vin4 -s
 
         # Make sure we can dequeue all buffers
         yavta -n 4 --capture=10 /dev/$vin2
@@ -95,4 +51,7 @@ case $gen in
         ;;
 esac
 
-test_compliance_end
+# Print any log which happens when running test
+dmesg | sed "1,/$marker/d"
+
+confirm "Are compliance dmesg output ok"
