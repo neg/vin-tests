@@ -9,4 +9,4 @@ if [[ "$gen" == "gen3" ]]; then
 fi
 
 $base/test-compliance.sh || exit 1
-$base/qv4l2.sh || exit 1
+$base/test-qv4l2.sh || exit 1

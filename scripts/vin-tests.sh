@@ -31,14 +31,6 @@ confirm() {
     exit 1
 }
 
-test_qv4l2() {
-    dev=/dev/$1
-
-    echo "* qv4l2"
-    qv4l2 -d $dev
-    confirm "Are qv4l2 for $dev ok"
-}
-
 # Media controller
 
 mediactl="media-ctl"
