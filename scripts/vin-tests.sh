@@ -104,33 +104,13 @@ mc_get_dev() {
 	    sed 's#.*video4linux\(.*\)/name#/dev\1#g'
 }
 
-mc_log() {
-    src=$1
-    pad=$2
-    sink=$3
-    msg=$4
-    echo "'$src':$pad -> '$sink':0 : $msg"
-}
-
-mc_ensure() {
-    mdev=$(mc_get_mdev)
-
-    ent=$1
-
-    if [[ "$($mediactl -d $mdev -p | grep "$ent")" == "" ]]; then
-        return 1
-    fi
-
-    return 0
-}
-
 mc_reset() {
     mdev=$(mc_get_mdev)
 
     $mediactl -d $mdev -r
 }
 
-mc_mc_set_link_raw()
+mc_set_link()
 {
     mdev=$(mc_get_mdev)
 
@@ -139,27 +119,7 @@ mc_mc_set_link_raw()
     sink=$3
     mode=$4
 
-    $mediactl -d $mdev -l "'$src':$pad -> '$sink':0 [$mode]" &> /dev/null
-    return $?
-}
-
-mc_set_link() {
-    src=$1
-    pad=$2
-    sink=$3
-    mode=$4
-
-    if ! mc_ensure "$src"; then
-        mc_log "$src" $pad "$sink" "SKIP - '$src' Not present in system"
-        return 0
-    fi
-
-    if ! mc_mc_set_link_raw "$src" $pad "$sink" $mode; then
-        mc_log "$src" $pad "$sink" "FAIL - Link set $mode failed but should be OK"
-        exit 1
-    fi
-
-    mc_log "$src" $pad "$sink" "OKEY - Link set $mode"
+    $mediactl -d $mdev -l "'$src':$pad -> '$sink':0 [$mode]"
 }
 
 mc_propagate_format() {

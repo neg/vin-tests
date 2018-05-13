@@ -6,7 +6,6 @@ case $info in
     "Renesas Salvator-X board based on r8a7795 ES1.x")
         echo "Board: H3 ES1.x"
         gen="gen3"
-        gen3es="1.x"
         vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
         vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
         vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
@@ -40,7 +39,6 @@ case $info in
     "Renesas Salvator-X 2nd version board based on r8a7795 ES2.0+")
         echo "Board: H3 ES2.0+"
         gen="gen3"
-        gen3es="2.0"
         vin0=$(basename /sys/devices/platform/soc/e6ef0000.video/video4linux/video*)
         vin1=$(basename /sys/devices/platform/soc/e6ef1000.video/video4linux/video*)
         vin2=$(basename /sys/devices/platform/soc/e6ef2000.video/video4linux/video*)
