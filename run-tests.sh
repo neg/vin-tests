@@ -8,5 +8,5 @@ if [[ "$gen" == "gen3" ]]; then
     $base/test-mc-links.py || exit 1
 fi
 
-$base/compliance.sh || exit 1
+$base/test-compliance.sh || exit 1
 $base/qv4l2.sh || exit 1
