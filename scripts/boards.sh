@@ -59,9 +59,17 @@ if [[ "$gen" == "gen3" ]]; then
         esac
     done
 
-    cvbsname="adv748x 4-0070 afe"
-    hdminame="adv748x 4-0070 hdmi"
+    if [[ "$info" == "Renesas Eagle board based on r8a77970" ]]; then
+        cvbsname="adv748x 0-0070 afe"
+        hdminame="adv748x 0-0070 hdmi"
 
-    txaname="adv748x 4-0070 txa"
-    txbname="adv748x 4-0070 txb"
+        txaname="adv748x 0-0070 txa"
+        txbname="adv748x 0-0070 txb"
+    else
+        cvbsname="adv748x 4-0070 afe"
+        hdminame="adv748x 4-0070 hdmi"
+
+        txaname="adv748x 4-0070 txa"
+        txbname="adv748x 4-0070 txb"
+    fi
 fi
