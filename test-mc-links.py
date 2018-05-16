@@ -119,6 +119,16 @@ m3w    = {0: {
             }
         }
 
+v3m    = {0: {
+                0: {VIN0: CSI40_VC0, VIN1: None,      VIN2: None,      VIN3: CSI40_VC1},
+                1: {VIN0: None,      VIN1: None,      VIN2: CSI40_VC0, VIN3: None     },
+                2: {VIN0: None,      VIN1: CSI40_VC0, VIN2: None,      VIN3: None     },
+                3: {VIN0: CSI40_VC0, VIN1: CSI40_VC1, VIN2: CSI40_VC2, VIN3: CSI40_VC3},
+            },
+         1: None
+        }
+
+
 class Lookup:
     mdev = subprocess.check_output("for mdev in /dev/media* ; do if [[ \"$(media-ctl -d $mdev -p | grep 'rcar_vin')\" != \"\" ]]; then echo -n $mdev; fi; done", shell=True).decode("utf-8")
     def model(self):
@@ -334,9 +344,13 @@ def test(data):
     if not run_test(data[0], [VIN0, VIN1, VIN2, VIN3]):
         return False
 
+    if not data[1]:
+        return True
+
     print("=== Second half ===")
     if not run_test(data[1], [VIN4, VIN5, VIN6, VIN7]):
         return False
+
     return True
 
 def main(argv):
@@ -357,6 +371,8 @@ def main(argv):
         status = test(m3w)
     elif model == "renesas,vin-r8a77965":
         status = test(h3_m3n)
+    elif model == "renesas,vin-r8a77970":
+        status = test(v3m)
     else:
         print("Unkown model %s" % (model))
         sys.exit(1)
