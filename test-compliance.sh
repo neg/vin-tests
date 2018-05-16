@@ -26,24 +26,41 @@ case $gen in
 
     "gen3")
         mc_reset
+
         mc_set_link "$csi40name" 1 "$vinname0" 1
-        mc_set_link "$csi20name" 1 "$vinname1" 1
         mc_propagate_hdmi "$vinname0"
-        mc_propagate_cvbs "$vinname1"
         v4l2-compliance -d /dev/$vin0 -s
-        v4l2-compliance -d /dev/$vin1 -s
+
+        if [[ "$csi20name" != "" ]]; then
+            mc_set_link "$csi20name" 1 "$vinname1" 1
+            mc_propagate_cvbs "$vinname1"
+            v4l2-compliance -d /dev/$vin1 -s
+        fi
 
         mc_reset
+
         mc_set_link "$csi40name" 1 "$vinname2" 1
-        mc_set_link "$csi20name" 1 "$vinname4" 1
         mc_propagate_hdmi "$vinname2"
-        mc_propagate_cvbs "$vinname4"
         v4l2-compliance -d /dev/$vin2 -s
-        v4l2-compliance -d /dev/$vin4 -s
+
+        if [[ "$csi20name" != "" ]]; then
+            mc_set_link "$csi20name" 1 "$vinname4" 1
+            mc_propagate_cvbs "$vinname4"
+            v4l2-compliance -d /dev/$vin4 -s
+        fi
 
         # Make sure we can dequeue all buffers
+        mc_reset
+
+        mc_set_link "$csi40name" 1 "$vinname2" 1
+        mc_propagate_hdmi "$vinname2"
         yavta -n 4 --capture=10 /dev/$vin2
-        yavta -n 4 --capture=10 /dev/$vin4
+
+        if [[ "$csi20name" != "" ]]; then
+            mc_set_link "$csi20name" 1 "$vinname4" 1
+            mc_propagate_cvbs "$vinname4"
+            yavta -n 4 --capture=10 /dev/$vin4
+        fi
         ;;
     *)
         echo "Unkown generation '$gen'"
