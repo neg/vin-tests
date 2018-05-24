@@ -81,3 +81,34 @@ mc_propagate_cvbs() {
 
     mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" 1 "$vin"
 }
+
+mc_propagate_parallel() {
+    mdev=$(mc_get_mdev)
+
+    cam="'$parallelname':1"
+
+    format=$($mediactl -d $mdev --get-v4l2 "$cam" | head -n 1 | sed 's|.*fmt:\([^/]*\).*|\1|')
+    size=$($mediactl -d $mdev --get-v4l2 "$cam" | head -n 1 | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
+    field=$($mediactl -d $mdev --get-v4l2 "$cam" | head -n 1 | sed 's|.*field:\([^] ]*\).*|\1|')
+    vdev=$($mediactl -d $mdev -e "$vin" )
+
+    vinsize=$size
+    vinfield=$field
+
+    if [[ "$field" == "alternate" ]]; then
+        width=$(echo $size | awk -Fx '{print $1}')
+        height=$(echo $size | awk -Fx '{print $2}')
+        vinsize="${width}x$(($height * 2))"
+        vinfield="interlaced"
+    fi
+
+    if [[ "$format" != "$parallelformat" ]]; then
+        echo "WARING: overriding parallel format to: $parallelformat"
+        format="$parallelformat"
+    fi
+
+    echo "format: $format size: $size/$vinsize field: $field/$vinfield vdev: $vdev"
+
+    $mediactl -d $mdev -V "$cam [fmt:$format/$size field:$field]"
+    yavta -f RGB565 -s $vinsize --field $vinfield $vdev
+}
