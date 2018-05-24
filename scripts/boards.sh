@@ -23,6 +23,11 @@ case $info in
         gen="gen3"
         vins="0 1 2 3"
         csis="40"
+
+        parallelname="adv7612 0-004c"
+        # FIXME: This is a hack and not the correct mbus format
+        # for V3M, but results in an image.
+        parallelformat="YUYV8_1X16"
         ;;
     "Koelsch")
         gen="gen2"
