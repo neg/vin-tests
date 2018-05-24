@@ -24,6 +24,13 @@ case $gen in
             mc_propagate_cvbs "$vinname1"
             qv4l2 -d /dev/$vin1
         fi
+
+        if [[ "$parallelname" != "" ]]; then
+            mc_reset
+            mc_set_link "$parallelname" 1 "$vinname0" 1
+            mc_propagate_parallel "$vinname0"
+            qv4l2 -d /dev/$vin0
+        fi
         ;;
     *)
         echo "Unkown generation '$gen'"
