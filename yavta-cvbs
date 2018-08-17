@@ -39,6 +39,7 @@ case $vc in
 esac
 
 mc_reset
+$base/set-std
 mc_set_link "$csi20name" $csipad "$vinname" 1
 mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" $csipad "$vinname"
 

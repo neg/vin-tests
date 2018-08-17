@@ -13,6 +13,7 @@ case $gen in
     "gen2")
         v4l2-ctl --set-dv-bt-timings=query -d /dev/$vin0
         $base/set-edid
+        $base/set-std
         v4l2-compliance -d /dev/$vin0 -s -f
 
         std=$(v4l2-ctl --get-detected-standard -d /dev/$vin1 | awk '/Video Standard/{print $4}')
@@ -26,6 +27,7 @@ case $gen in
 
     "gen3")
         mc_reset
+        $base/set-std
 
         mc_set_link "$csi40name" 1 "$vinname0" 1
         mc_propagate_hdmi "$vinname0"

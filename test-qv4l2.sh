@@ -9,12 +9,14 @@ source $base/scripts/boards.sh
 
 case $gen in
     "gen2")
+        $base/set-std
         qv4l2 -d /dev/$vin0
         qv4l2 -d /dev/$vin1
         ;;
 
     "gen3")
         mc_reset
+        $base/set-std
         mc_set_link "$csi40name" 1 "$vinname0" 1
         mc_propagate_hdmi "$vinname0"
         qv4l2 -d /dev/$vin0
