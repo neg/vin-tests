@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+base=$(dirname $(readlink -f $0))
+
+source $base/scripts/vin-tests.sh
+source $base/scripts/boards.sh
+
+case $gen in
+    "gen2")
+        std=$(v4l2-ctl --get-detected-standard -d /dev/$vin1 | awk '/Video Standard/{print $4}')
+        v4l2-ctl --set-standard=$std -d /dev/$vin1
+        ;;
+
+    "gen3")
+        subdev=$(mc_get_dev "$cvbsname")
+        std=$(v4l2-ctl --get-detected-standard -d $subdev | awk '/Video Standard/{print $4}')
+        v4l2-ctl --set-standard=$std -d $subdev
+        ;;
+    *)
+        echo "Unkown generation '$gen'"
+        exit 1
+        ;;
+esac
