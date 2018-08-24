@@ -83,6 +83,7 @@ mc_propagate_cvbs() {
 }
 
 mc_propagate_parallel() {
+    vin="$1"
     mdev=$(mc_get_mdev)
 
     cam="'$parallelname':1"
