@@ -15,8 +15,10 @@ case $gen in
 
     "gen3")
         subdev=$(mc_get_dev "$cvbsname")
-        std=$(v4l2-ctl --get-detected-standard -d $subdev | awk '/Video Standard/{print $4}')
-        v4l2-ctl --set-standard=$std -d $subdev
+        if [[ "$subdev" != "" ]]; then
+            std=$(v4l2-ctl --get-detected-standard -d $subdev | awk '/Video Standard/{print $4}')
+            v4l2-ctl --set-standard=$std -d $subdev
+        fi
         ;;
     *)
         echo "Unkown generation '$gen'"
