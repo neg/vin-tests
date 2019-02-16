@@ -15,9 +15,11 @@ case $gen in
 
     "gen3")
         subdev=$(mc_get_dev "$cvbsname")
-        if [[ "$subdev" != "" ]]; then
+        csidev=$(mc_get_dev "$csi20name")
+        if [[ "$subdev" != "" && "$csidev" != "" ]]; then
             std=$(v4l2-ctl --get-detected-standard -d $subdev | awk '/Video Standard/{print $4}')
             v4l2-ctl --set-standard=$std -d $subdev
+            v4l2-ctl --set-standard=$std -d $csidev
         fi
         ;;
     *)
