@@ -17,19 +17,16 @@ case $gen in
     "gen3")
         mc_reset
         $base/set-std
-        mc_set_link "$csi40name" 1 "$vinname0" 1
-        mc_propagate_hdmi "$vinname0"
+        mc_propagate_hdmi "$vinname0" 1
         qv4l2 -d /dev/$vin0
 
         if [[ "$csi20name" != "" ]]; then
-            mc_set_link "$csi20name" 1 "$vinname1" 1
-            mc_propagate_cvbs "$vinname1"
+            mc_propagate_cvbs "$vinname1" 1
             qv4l2 -d /dev/$vin1
         fi
 
         if [[ "$parallelname" != "" ]]; then
             mc_reset
-            mc_set_link "$parallelname" 1 "$vinname0" 1
             mc_propagate_parallel "$vinname0"
             qv4l2 -d /dev/$vin0
         fi

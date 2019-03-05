@@ -70,28 +70,36 @@ mc_propagate_format() {
 
 # HDMI can only output to TXA on the ADV748x
 mc_propagate_hdmi() {
-    vin="$1"
+    vinname="$1"
+    csipad=$2
 
-    mc_propagate_format "$hdminame" 1 "$txaname" 0 "$csi40name" 1 "$vin"
+    mc_set_link "$hdminame" 1 "$txaname" 1
+    mc_set_link "$csi40name" 1 "$vinname" 1
+    mc_propagate_format "$hdminame" 1 "$txaname" 0 "$csi40name" $csipad "$vinname"
 }
 
 # CVBS is only currently supported on TXB
 mc_propagate_cvbs() {
-    vin="$1"
+    vinname="$1"
+    csipad=$2
 
-    mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" 1 "$vin"
+    mc_set_link "$cvbsname" 8 "$txbname" 1
+    mc_set_link "$csi20name" 1 "$vinname" 1
+    mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" $csipad "$vinname"
 }
 
 mc_propagate_parallel() {
-    vin="$1"
+    vinname="$1"
     mdev=$(mc_get_mdev)
 
     cam="'$parallelname':1"
 
+    mc_set_link "$parallelname" 1 "$vinname" 1
+
     format=$($mediactl -d $mdev --get-v4l2 "$cam" | head -n 1 | sed 's|.*fmt:\([^/]*\).*|\1|')
     size=$($mediactl -d $mdev --get-v4l2 "$cam" | head -n 1 | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
     field=$($mediactl -d $mdev --get-v4l2 "$cam" | head -n 1 | sed 's|.*field:\([^] ]*\).*|\1|')
-    vdev=$($mediactl -d $mdev -e "$vin" )
+    vdev=$($mediactl -d $mdev -e "$vinname" )
 
     vinsize=$size
     vinfield=$field

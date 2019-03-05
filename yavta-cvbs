@@ -40,8 +40,7 @@ esac
 
 mc_reset
 $base/set-std
-mc_set_link "$csi20name" $csipad "$vinname" 1
-mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" $csipad "$vinname"
+mc_propagate_cvbs "$vinname" $csipad
 
 out=/tmp/vin-tests
 rm -fr $out
