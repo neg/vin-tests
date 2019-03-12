@@ -15,13 +15,9 @@ case $gen in
 
     "gen3")
         subdev=$(mc_get_dev "$cvbsname")
-        csidev=$(mc_get_dev "$csi20name")
-        if [[ "$subdev" != "" && "$csidev" != "" ]]; then
+        if [[ "$subdev" != "" ]]; then
             std=$(v4l2-ctl --get-detected-standard -d $subdev | awk '/Video Standard/{print $4}')
             v4l2-ctl --set-standard=$std -d $subdev
-            if ! v4l2-ctl --set-standard=$std -d $csidev; then
-                echo "NOTE: Skiping setting standard on $csidev as it's not supported on this kernel"
-            fi
         fi
         ;;
     *)
