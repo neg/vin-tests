@@ -32,6 +32,7 @@ confirm() {
 
 if [[ "$gen" == "gen3" ]]; then
     $base/test-mc-links.py || exit 1
+    $base/test-nv12.sh || exit 1
 fi
 
 $base/test-compliance.sh || exit 1
