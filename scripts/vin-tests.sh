@@ -38,26 +38,26 @@ mc_set_link()
 }
 
 mc_propagate_format() {
-    mdev=$(mc_get_mdev)
+    local mdev=$(mc_get_mdev)
 
-    cam="'$1':$2"
-    atx="'$3':$4"
-    csi="'$5':$6"
-    vin="$7"
+    local cam="'$1':$2"
+    local atx="'$3':$4"
+    local csi="'$5':$6"
+    local vin="$7"
 
-    format=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:\([^/]*\).*|\1|')
-    size=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
-    field=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*field:\([^] ]*\).*|\1|')
-    vdev=$($mediactl -d $mdev -e "$vin" )
+    local format=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:\([^/]*\).*|\1|')
+    local size=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*fmt:[^/]*/\([^ ]*\).*|\1|')
+    local field=$($mediactl -d $mdev --get-v4l2 "$cam" | sed 's|.*field:\([^] ]*\).*|\1|')
+    local vdev=$($mediactl -d $mdev -e "$vin" )
 
-    vinsize=$size
-    vinfield=$field
+    local vinsize=$size
+    local vinfield=$field
 
     if [[ "$field" == "alternate" ]]; then
-        width=$(echo $size | awk -Fx '{print $1}')
-        height=$(echo $size | awk -Fx '{print $2}')
-        vinsize="${width}x$(($height * 2))"
-        vinfield="interlaced"
+        local width=$(echo $size | awk -Fx '{print $1}')
+        local height=$(echo $size | awk -Fx '{print $2}')
+        local vinsize="${width}x$(($height * 2))"
+        local vinfield="interlaced"
     fi
 
     echo "format: $format size: $size/$vinsize field: $field/$vinfield vdev: $vdev"
