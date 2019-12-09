@@ -1,0 +1,81 @@
+#!/bin/bash
+
+set -e
+
+base=$(dirname $(readlink -f $0))
+
+source $base/scripts/vin-tests.sh
+source $base/scripts/boards.sh
+
+host=10.0.1.1
+vc=0
+field=default
+while getopts ":f:h:v:" opt; do
+    case $opt in
+        f)
+            field=$OPTARG
+            ;;
+        h)
+            host=$OPTARG
+            ;;
+        v)
+            vc=$OPTARG
+            ;;
+        *)
+            echo "Invalid option: -$OPTARG"
+            exit 1
+            ;;
+    esac
+done
+
+case $vc in
+    0)
+        vinname=$vinname0
+        dev=/dev/$vin0
+        csipad=1
+        ;;
+    1)
+        vinname=$vinname1
+        dev=/dev/$vin1
+        csipad=2
+        ;;
+    2)
+        vinname=$vinname2
+        dev=/dev/$vin2
+        csipad=3
+        ;;
+    3)
+        vinname=$vinname3
+        dev=/dev/$vin3
+        csipad=4
+        ;;
+    *)
+        echo "Unkown VC '$vc'"
+        exit 1
+esac
+
+case $gen in
+    "gen2")
+        $base/set-std
+        ;;
+
+    "gen3")
+        mc_reset
+        $base/set-std
+        mc_propagate_cvbs "$vinname" $csipad
+        ;;
+    *)
+        echo "Unkown generation '$gen'"
+        exit 1
+        ;;
+esac
+
+if [[ "$field" != "default" ]]; then
+    echo "Setting field format: $field"
+    v4l2-ctl --set-fmt-video field=$field -d $dev
+fi
+
+echo "Please make sure qvidcap is running on $host"
+
+v4l2-ctl --get-fmt-video -d $dev
+v4l2-ctl --stream-mmap --stream-to-host $host -d $dev
