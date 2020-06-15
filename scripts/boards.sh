@@ -3,6 +3,11 @@
 info=$(strings /proc/device-tree/model)
 
 case $info in
+    "Renesas Ebisu board based on r8a77990")
+        gen="gen3"
+        vins="4 5"
+        csis="40"
+        ;;
     "Renesas Salvator-X board based on r8a7795 ES1.x")
         gen="gen3"
         vins="0 1 2 3 4 5 6 7"
@@ -66,17 +71,21 @@ if [[ "$gen" == "gen3" ]]; then
         esac
     done
 
-    if [[ "$info" == "Renesas Eagle board based on r8a77970" ]]; then
+    case "$info" in
+    "Renesas Eagle board based on r8a77970" | \
+    "Renesas Ebisu board based on r8a77990")
         cvbsname="adv748x 0-0070 afe"
         hdminame="adv748x 0-0070 hdmi"
 
         txaname="adv748x 0-0070 txa"
         txbname="adv748x 0-0070 txb"
-    else
+        ;;
+    *)
         cvbsname="adv748x 4-0070 afe"
         hdminame="adv748x 4-0070 hdmi"
 
         txaname="adv748x 4-0070 txa"
         txbname="adv748x 4-0070 txb"
-    fi
+        ;;
+    esac
 fi

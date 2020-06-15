@@ -33,6 +33,16 @@ case $vc in
         dev=/dev/$vin3
         csipad=4
         ;;
+    4)
+        vinname=$vinname4
+        dev=/dev/$vin4
+        csipad=1
+        ;;
+    5)
+        vinname=$vinname5
+        dev=/dev/$vin5
+        csipad=2
+        ;;
     *)
         echo "Unkown VC '$vc'"
         exit 1
