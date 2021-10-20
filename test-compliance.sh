@@ -33,12 +33,12 @@ case $gen in
         v4l2-compliance -d /dev/$vin0 -s
 
         if [[ "$csi20name" != "" ]]; then
+            mc_reset
             mc_propagate_cvbs "$vinname1" 1
             v4l2-compliance -d /dev/$vin1 -s
         fi
 
         mc_reset
-
         mc_propagate_hdmi "$vinname2" 1
         v4l2-compliance -d /dev/$vin2 -s
 
@@ -49,11 +49,11 @@ case $gen in
 
         # Make sure we can dequeue all buffers
         mc_reset
-
         mc_propagate_hdmi "$vinname2" 1
         yavta -n 4 --capture=10 /dev/$vin2
 
         if [[ "$csi20name" != "" ]]; then
+            mc_reset
             mc_propagate_cvbs "$vinname4" 1
             yavta -n 4 --capture=10 /dev/$vin4
         fi

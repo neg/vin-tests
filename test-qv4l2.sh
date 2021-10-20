@@ -21,6 +21,7 @@ case $gen in
         qv4l2 -d /dev/$vin0
 
         if [[ "$csi20name" != "" ]]; then
+            mc_reset
             mc_propagate_cvbs "$vinname1" 1
             qv4l2 -d /dev/$vin1
         fi
