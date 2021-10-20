@@ -167,7 +167,6 @@ def link_set_row(row, skip, mode):
 
         if not link_set(vin, row[vin], mode):
             print("FAIL - Link from %s -> %s [%d] is not possible" % (vin.name(), row[vin].name(), mode))
-            return False
 
     return True
 
@@ -182,11 +181,9 @@ def test_single(data):
         for vin in row:
             if not link_set(vin, row[vin], 1):
                 print("FAIL - Link from %s to %s is not possible to enable" % (vin, row[vin]))
-                return False
 
             if not link_set(vin, row[vin], 0):
                 print("FAIL - Link from %s to %s is not possible to disable" % (vin, row[vin]))
-                return False
 
     return True
 
@@ -226,7 +223,7 @@ def test_full_chsel_fail_row(data, chsel_used):
 
             if link_set(vin, csi, 1):
                 print("FAIL - Link from %s to %s is possible when it should NOT be" % (vin, csi))
-                return False
+                continue
 
     return True
 
@@ -258,67 +255,6 @@ def test_full_chsel(data):
 
     return True
 
-# Test 3 - Test alternating links
-#
-# There might be more then one way to enable a specific link.
-# Find a link which have multiple options and try that all possible
-# other link variations are OK.
-
-def test_dups_set_row(row, skip, mode):
-    for vin in row:
-        if vin == skip:
-            continue
-
-        if not link_set(vin, row[vin], mode):
-            print("FAIL - Link from %s to %s to %d is not possible" % (vin, row[vin], mode))
-            return False
-
-    return True
-
-def test_dupes_vin(data, vin):
-    seen = {}
-    uniq = []
-
-    # Find all CSI/VC which have dupe for @vin
-    for chsel in data:
-        csivc = data[chsel][vin]
-
-        if not csivc in seen:
-            seen[csivc] = 0
-
-        seen[csivc] += 1
-
-        if seen[csivc] == 2:
-            uniq.append(csivc)
-
-    # Enable master link and enable all links for all alternates
-    for csitest in uniq:
-
-        links_reset()
-
-        if not link_set(vin, csitest, 1):
-            print("FAIL - Can't setup master link VIN")
-            return False
-
-        for chsel in data:
-            if csitest != data[chsel][vin]:
-                continue
-
-            if not test_dups_set_row(data[chsel], vin, 1):
-                return False
-
-            if not test_dups_set_row(data[chsel], vin, 0):
-                return False
-
-    return True
-
-def test_dupes(data, vins):
-    for vin in vins:
-        if not test_dupes_vin(data, vin):
-            return False
-
-    return True
-
 # Test setup
 
 def run_test(data, vins):
@@ -328,10 +264,6 @@ def run_test(data, vins):
 
     print("Test 2 - Full rows")
     if not test_full_chsel(data):
-        return False
-
-    print("Test 3 - Duplicate possibilities")
-    if not test_dupes(data, vins):
         return False
 
     return True
