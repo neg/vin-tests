@@ -187,83 +187,11 @@ def test_single(data):
 
     return True
 
-# Test 2 - Full CHSEL row
-#
-# Sel all VIN -> CSI-2 links for a row and try to enable additional
-# valid links that are not possible due to other links.
-
-def test_full_chsel_already_enabled(row, avin, acsi):
-
-    for vin in row:
-        if vin == avin and row[vin] == acsi:
-            return True
-    return False
-
-
-def test_full_chsel_fail_row(data, chsel_used):
-    for chsel in data:
-        if chsel == chsel_used:
-            continue
-
-        row = data[chsel]
-
-        for vin in row:
-            csi = row[vin]
-
-            if csi == None:
-                continue
-
-            if test_full_chsel_already_enabled(data[chsel_used], vin, csi):
-                print("SKIP - Link from %s to %s already enabled" % (vin, csi))
-                continue
-
-            if not csi_available(csi) and csi.failok:
-                print("SKIP - Row Link from %s as it's not available in system" % (csi))
-                continue
-
-            if link_set(vin, csi, 1):
-                print("FAIL - Link from %s to %s is possible when it should NOT be" % (vin, csi))
-                continue
-
-    return True
-
-def test_full_chsel(data):
-    for chsel in data:
-
-        runok = False
-        row = data[chsel]
-        for vin in data[chsel]:
-            if data[chsel][vin] == None:
-                continue
-            if csi_available(data[chsel][vin]):
-                runok = True
-                break
-
-        if not runok:
-            print("SKIP - No links avaiable for chsel %d" % (chsel))
-            continue
-
-        if not link_set_row(data[chsel], None, 1):
-            return False
-
-        if not test_full_chsel_fail_row(data, chsel):
-            return False
-
-        if not link_set_row(data[chsel], None, 0):
-            return False
-
-
-    return True
-
 # Test setup
 
 def run_test(data, vins):
     print("Test 1 - Single links")
     if not test_single(data):
-        return False
-
-    print("Test 2 - Full rows")
-    if not test_full_chsel(data):
         return False
 
     return True
