@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+base=$(dirname $(readlink -f $0))
+
+source $base/scripts/vin-tests.sh
+source $base/scripts/boards.sh
+
+case $gen in
+    "gen2")
+        qv4l2 -d /dev/$vin0
+        ;;
+
+    "gen3")
+        mc_reset
+        mc_propagate_hdmi "$vinname0" 1
+        qv4l2 -d /dev/$vin0
+        ;;
+    *)
+        echo "Unkown generation '$gen'"
+        exit 1
+        ;;
+esac

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+base=$(dirname $(readlink -f $0))
+
+source $base/scripts/vin-tests.sh
+source $base/scripts/boards.sh
+
+case $gen in
+    "gen2")
+        $base/set-std
+        qv4l2 -d /dev/$vin1
+        ;;
+
+    "gen3")
+        $base/set-std
+        mc_reset
+        mc_propagate_cvbs "$vinname0" 1
+        qv4l2 -d /dev/$vin0
+        ;;
+    *)
+        echo "Unkown generation '$gen'"
+        exit 1
+        ;;
+esac
