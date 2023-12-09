@@ -37,6 +37,7 @@ case $info in
         parallelname="adv7612 0-004c"
         # FIXME: This is a hack and not the correct mbus format
         # for V3M, but results in an image.
+        # 2023-12-05: I think correct is YUYV12_2X12, but adv7612 don't support this nor VIN.
         parallelformat="YUYV8_1X16"
         ;;
     "Koelsch")
