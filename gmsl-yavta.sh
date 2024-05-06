@@ -16,7 +16,7 @@ function conf() {
     IDX="$2"
     VIN="$3"
 
-    media-ctl -d $mdev -V "'$CSI':$IDX [fmt:UYVY8_1X16/1280x800 field:none]"
+    media-ctl -d $mdev -V "'$CSI':0 [fmt:UYVY8_1X16/1280x800 field:none]"
     mc_set_link "$CSI" $IDX "$VIN" 1
 }
 
