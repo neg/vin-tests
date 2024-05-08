@@ -75,7 +75,7 @@ mc_propagate_hdmi() {
 
     mc_set_link "$hdminame" 1 "$txaname" 1
     mc_set_link "$csi40name" $csipad "$vinname" 1
-    mc_propagate_format "$hdminame" 1 "$txaname" 0 "$csi40name" $csipad "$vinname"
+    mc_propagate_format "$hdminame" 1 "$txaname" 0 "$csi40name" 0 "$vinname"
 }
 
 # CVBS is only currently supported on TXB
@@ -84,8 +84,8 @@ mc_propagate_cvbs() {
     csipad=$2
 
     mc_set_link "$cvbsname" 8 "$txbname" 1
-    mc_set_link "$csi20name" 1 "$vinname" 1
-    mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" $csipad "$vinname"
+    mc_set_link "$csi20name" $csipad "$vinname" 1
+    mc_propagate_format "$cvbsname" 8 "$txbname" 0 "$csi20name" 0 "$vinname"
 }
 
 mc_propagate_parallel() {
