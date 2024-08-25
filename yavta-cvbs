@@ -56,7 +56,7 @@ out=/tmp/vin-tests
 rm -fr $out
 mkdir -p $out
 
-size=$(v4l2-ctl --all -d $dev  | awk '/Width/{print $3}' | tr '/' 'x')
+size=$(v4l2-ctl --all -d $dev  | awk '/Width\/Height/{print $3}' | tr '/' 'x')
 
 yavta -n 4 --capture=10 $dev --file=$out/frame-#.bin $*
 
